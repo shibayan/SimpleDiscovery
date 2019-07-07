@@ -27,6 +27,7 @@ steps:
   displayName: 'dotnet pack'
   inputs:
     command: pack
+    packagesToPack: 'src/**/*.csproj'
     nobuild: true
     versioningScheme: byEnvVar
     versionEnvVar: PackageVersion
