@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>b0f118b2-05fe-4e55-91a3-58d98645f73b</UserSecretsId>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SimpleDiscovery.AzureAppConfiguration\SimpleDiscovery.AzureAppConfiguration.csproj" />
+    <ProjectReference Include="..\..\src\SimpleDiscovery.EnvironmentVariables\SimpleDiscovery.EnvironmentVariables.csproj" />
+  </ItemGroup>
+
+</Project>
