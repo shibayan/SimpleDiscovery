@@ -10,9 +10,16 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             builder.ConfigureHttpClient((provider, httpClient) =>
             {
-                var resolver = provider.GetRequiredService<IServiceRegistry>();
+                var registry = provider.GetRequiredService<IServiceRegistry>();
 
-                httpClient.BaseAddress = new Uri(resolver.GetService(builder.Name));
+                var serviceEndpoint = registry.GetService(builder.Name);
+
+                if (string.IsNullOrEmpty(serviceEndpoint))
+                {
+                    throw new InvalidOperationException($"The {builder.Name} service has not been registered.");
+                }
+
+                httpClient.BaseAddress = new Uri(serviceEndpoint);
             });
 
             return builder;
@@ -22,9 +29,16 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             builder.ConfigureHttpClient((provider, httpClient) =>
             {
-                var resolver = provider.GetRequiredService<IServiceRegistry>();
+                var registry = provider.GetRequiredService<IServiceRegistry>();
 
-                httpClient.BaseAddress = new Uri(resolver.GetService(serviceName));
+                var serviceEndpoint = registry.GetService(serviceName);
+
+                if (string.IsNullOrEmpty(serviceEndpoint))
+                {
+                    throw new InvalidOperationException($"The {serviceName} service has not been registered.");
+                }
+
+                httpClient.BaseAddress = new Uri(serviceEndpoint);
             });
 
             return builder;
