@@ -1,0 +1,13 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>shibayan</Authors>
+    <Company>shibayan</Company>
+    <Description>HttpClientFactory based client service discovery for .NET Core</Description>
+    <PackageReleaseNotes>https://github.com/shibayan/SimpleDiscovery/releases</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/shibayan/SimpleDiscovery</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+</Project>
