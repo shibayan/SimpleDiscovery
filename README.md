@@ -57,10 +57,35 @@ public class Startup
         services.AddSimpleDiscovery()
                 .AddAzureAppConfiguration(Configuration.GetConnectionString("AppConfig"));
 
+        // Match the service name registered in App Configuration
         services.AddHttpClient("Buchizo")
                 .WithSimpleDiscovery();
 
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+    }
+}
+```
+
+### 4. Using HttpClientFactory
+
+```csharp
+public class BuchizoController : Controller
+{
+    public BuchizoController(IHttpClientFactory httpClientFactory)
+    {
+        _httpClientFactory = httpClientFactory;
+    }
+
+    private readonly IHttpClientFactory _httpClientFactory;
+
+    public async Task<IActionResult> Index()
+    {
+        var httpClient = _httpClientFactory.CreateClient("Buchizo");
+
+        // SimpleDiscovery automatically resolves destination host
+        var response = await httpClient.GetStringAsync("/");
+
+        return Content(response);
     }
 }
 ```
