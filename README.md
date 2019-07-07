@@ -1,5 +1,7 @@
 # SimpleDiscovery
 
+[![Build Status](https://dev.azure.com/shibayan/SimpleDiscovery/_apis/build/status/Build%20SimpleDiscovery?branchName=master)](https://dev.azure.com/shibayan/SimpleDiscovery/_build/latest?definitionId=19&branchName=master)
+
 ## NuGet Packages
 
 Package Name | Target Framework | NuGet
