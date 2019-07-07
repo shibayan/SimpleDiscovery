@@ -7,9 +7,7 @@
 Package Name | Target Framework | NuGet
 ---|---|---
 SimpleDiscovery | .NET Standard 2.0 | [![NuGet](https://img.shields.io/nuget/v/SimpleDiscovery.svg)](https://www.nuget.org/packages/SimpleDiscovery)
----|---|---
 SimpleDiscovery.AzureAppConfiguration | .NET Standard 2.0 | [![NuGet](https://img.shields.io/nuget/v/SimpleDiscovery.AzureAppConfiguration.svg)](https://www.nuget.org/packages/SimpleDiscovery.AzureAppConfiguration)
----|---|---
 SimpleDiscovery.EnvironmentVariables | .NET Standard 2.0 | [![NuGet](https://img.shields.io/nuget/v/SimpleDiscovery.EnvironmentVariables.svg)](https://www.nuget.org/packages/SimpleDiscovery.EnvironmentVariables)
 
 ## License
