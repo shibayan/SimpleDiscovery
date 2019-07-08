@@ -16,7 +16,7 @@ namespace FunctionApp
                    .AddEnvironmentVariables();
 
             builder.Services
-                   .AddHttpClient("Buchizo")
+                   .AddHttpClient<BuchizoService>()
                    .WithSimpleDiscovery();
         }
     }

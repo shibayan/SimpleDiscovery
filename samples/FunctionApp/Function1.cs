@@ -1,4 +1,3 @@
-using System.Net.Http;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -11,21 +10,19 @@ namespace FunctionApp
 {
     public class Function1
     {
-        public Function1(IHttpClientFactory httpClientFactory)
+        public Function1(BuchizoService buchizoService)
         {
-            _httpClientFactory = httpClientFactory;
+            _buchizoService = buchizoService;
         }
 
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly BuchizoService _buchizoService;
 
         [FunctionName("Function1")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var httpClient = _httpClientFactory.CreateClient("Buchizo");
-
-            var response = await httpClient.GetStringAsync("/");
+            var response = await _buchizoService.GetAsync("/");
 
             return new OkObjectResult(response);
         }
