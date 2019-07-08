@@ -18,7 +18,7 @@ SimpleDiscovery.EnvironmentVariables | .NET Standard 2.0 | [![NuGet](https://img
 
 https://docs.microsoft.com/en-us/azure/azure-app-configuration/
 
-The key name is saved as Registry:`service name`. The value sets an endpoint, such as a REST API.
+The key name is saved as `Registry:<service name>`. The value sets an endpoint, such as a REST API.
 
 ![image](https://user-images.githubusercontent.com/1356444/60800097-838e4a80-a1af-11e9-974c-bddd40af3a03.png)
 
