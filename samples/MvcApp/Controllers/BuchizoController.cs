@@ -1,24 +1,23 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
+
+using MvcApp.Services;
 
 namespace MvcApp.Controllers
 {
     public class BuchizoController : Controller
     {
-        public BuchizoController(IHttpClientFactory httpClientFactory)
+        public BuchizoController(BuchizoService buchizoService)
         {
-            _httpClientFactory = httpClientFactory;
+            _buchizoService = buchizoService;
         }
 
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly BuchizoService _buchizoService;
 
         public async Task<IActionResult> Index()
         {
-            var httpClient = _httpClientFactory.CreateClient("Buchizo");
-
-            var response = await httpClient.GetStringAsync("/");
+            var response = await _buchizoService.GetAsync("/");
 
             return Content(response);
         }

@@ -3,6 +3,6 @@
   "Values": {
     "AzureWebJobsStorage": "",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "SERVICES_Buchizo": "https://blog.azure.moe/"
+    "Registry_BuchizoService": "https://blog.azure.moe/"
   }
 }

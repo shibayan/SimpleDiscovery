@@ -18,9 +18,9 @@ SimpleDiscovery.EnvironmentVariables | .NET Standard 2.0 | [![NuGet](https://img
 
 https://docs.microsoft.com/en-us/azure/azure-app-configuration/
 
-The key name is saved as Services:`service name`. The value sets an endpoint, such as a REST API.
+The key name is saved as Registry:`service name`. The value sets an endpoint, such as a REST API.
 
-![image](https://user-images.githubusercontent.com/1356444/60766696-938f2700-a0e8-11e9-9734-6ab76ad5eb08.png)
+![image](https://user-images.githubusercontent.com/1356444/60800097-838e4a80-a1af-11e9-974c-bddd40af3a03.png)
 
 ### 2. Install nuget package
 
@@ -58,7 +58,7 @@ public class Startup
                 .AddAzureAppConfiguration(Configuration.GetConnectionString("AppConfig"));
 
         // Match the service name registered in App Configuration
-        services.AddHttpClient("Buchizo")
+        services.AddHttpClient("BuchizoService")
                 .WithSimpleDiscovery();
 
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -80,7 +80,7 @@ public class BuchizoController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var httpClient = _httpClientFactory.CreateClient("Buchizo");
+        var httpClient = _httpClientFactory.CreateClient("BuchizoService");
 
         // SimpleDiscovery automatically resolves destination host
         var response = await httpClient.GetStringAsync("/");

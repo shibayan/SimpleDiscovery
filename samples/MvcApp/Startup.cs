@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using MvcApp.Services;
+
 namespace MvcApp
 {
     public class Startup
@@ -34,7 +36,7 @@ namespace MvcApp
             services.AddSimpleDiscovery()
                     .AddAzureAppConfiguration(Configuration.GetConnectionString("AppConfig"));
 
-            services.AddHttpClient("Buchizo")
+            services.AddHttpClient<BuchizoService>()
                     .WithSimpleDiscovery();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
