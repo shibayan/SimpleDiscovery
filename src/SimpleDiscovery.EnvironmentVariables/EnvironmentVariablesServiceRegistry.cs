@@ -2,7 +2,7 @@
 
 namespace SimpleDiscovery.EnvironmentVariables
 {
-    public class EnvironmentVariablesServiceRegistry : IServiceRegistry
+    internal class EnvironmentVariablesServiceRegistry : IServiceRegistry
     {
         public EnvironmentVariablesServiceRegistry(string keyPrefix)
         {

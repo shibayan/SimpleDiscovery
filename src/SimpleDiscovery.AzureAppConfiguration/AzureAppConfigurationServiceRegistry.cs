@@ -8,6 +8,7 @@ namespace SimpleDiscovery.AzureAppConfiguration
         public AzureAppConfigurationServiceRegistry(string keyPrefix, AzureAppConfigurationOptions options)
         {
             _keyPrefix = keyPrefix;
+
             _configuration = new ConfigurationBuilder()
                              .AddAzureAppConfiguration(options)
                              .Build();
