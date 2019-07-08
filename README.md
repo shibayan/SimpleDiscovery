@@ -58,7 +58,7 @@ public class Startup
                 .AddAzureAppConfiguration(Configuration.GetConnectionString("AppConfig"));
 
         // Match the service name registered in App Configuration
-        services.AddHttpClient("BuchizoService")
+        services.AddHttpClient<BuchizoService>()
                 .WithSimpleDiscovery();
 
         services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -71,19 +71,17 @@ public class Startup
 ```csharp
 public class BuchizoController : Controller
 {
-    public BuchizoController(IHttpClientFactory httpClientFactory)
+    public BuchizoController(BuchizoService buchizoService)
     {
-        _httpClientFactory = httpClientFactory;
+        _buchizoService = buchizoService;
     }
 
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly BuchizoService _buchizoService;
 
     public async Task<IActionResult> Index()
     {
-        var httpClient = _httpClientFactory.CreateClient("BuchizoService");
-
         // SimpleDiscovery automatically resolves destination host
-        var response = await httpClient.GetStringAsync("/");
+        var response = await _buchizoService.GetSAsync("/");
 
         return Content(response);
     }
