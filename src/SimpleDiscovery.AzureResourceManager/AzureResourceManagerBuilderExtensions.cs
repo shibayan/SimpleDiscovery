@@ -11,19 +11,23 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         private const string DefaultTagName = "Registry";
 
-        public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder)
+        public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, Action<AzureResourceManagerOptions> optionsAction)
         {
-            builder.AddAzureResourceManager(DefaultTagName);
+            builder.AddAzureResourceManager(DefaultTagName, optionsAction);
         }
 
-        public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, string tagName)
+        public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, string tagName, Action<AzureResourceManagerOptions> optionsAction)
         {
             if (tagName == null)
             {
                 throw new ArgumentNullException(nameof(tagName));
             }
 
-            builder.Services.TryAddSingleton<IServiceRegistry>(new AzureResourceManagerServiceRegistry(tagName));
+            var options = new AzureResourceManagerOptions();
+
+            optionsAction(options);
+
+            builder.Services.TryAddSingleton<IServiceRegistry>(new AzureResourceManagerServiceRegistry(tagName, options));
         }
     }
 }

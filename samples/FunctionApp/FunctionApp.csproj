@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\SimpleDiscovery.AzureAppConfiguration\SimpleDiscovery.AzureAppConfiguration.csproj" />
+    <ProjectReference Include="..\..\src\SimpleDiscovery.AzureResourceManager\SimpleDiscovery.AzureResourceManager.csproj" />
     <ProjectReference Include="..\..\src\SimpleDiscovery.EnvironmentVariables\SimpleDiscovery.EnvironmentVariables.csproj" />
   </ItemGroup>
   <ItemGroup>
