@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
 namespace SimpleDiscovery.AzureAppConfiguration
@@ -19,6 +21,11 @@ namespace SimpleDiscovery.AzureAppConfiguration
 
         public string GetService(string serviceName)
         {
+            if (serviceName == null)
+            {
+                throw new ArgumentNullException(nameof(serviceName));
+            }
+
             return _configuration[$"{_keyPrefix}:{serviceName}"];
         }
     }

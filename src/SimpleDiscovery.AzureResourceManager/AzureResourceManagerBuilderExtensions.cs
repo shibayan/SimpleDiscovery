@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using System;
+
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using SimpleDiscovery;
 using SimpleDiscovery.AzureResourceManager;
@@ -16,6 +18,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, string tagName)
         {
+            if (tagName == null)
+            {
+                throw new ArgumentNullException(nameof(tagName));
+            }
+
             builder.Services.TryAddSingleton<IServiceRegistry>(new AzureResourceManagerServiceRegistry(tagName));
         }
     }
