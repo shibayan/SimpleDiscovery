@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Azure.Management.ResourceGraph;
 using Microsoft.Azure.Management.ResourceGraph.Models;
-using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Rest;
 
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using SimpleDiscovery.AzureResourceManager.Internal;
 
 namespace SimpleDiscovery.AzureResourceManager
 {
@@ -47,7 +46,7 @@ namespace SimpleDiscovery.AzureResourceManager
 
             var query = new QueryRequest
             {
-                Subscriptions = new[] { _options.SubscriptionId },
+                Subscriptions = new[] { _options.SubscriptionId ?? GetCurrentSubscriptionId() },
                 Query = $"where type =~ 'microsoft.web/sites' and not(isnull(tags['{_tagName}'])) | project hostName = properties.defaultHostName, serviceName = tags['{_tagName}']",
                 Options = new QueryRequestOptions { ResultFormat = ResultFormat.ObjectArray }
             };
@@ -61,32 +60,12 @@ namespace SimpleDiscovery.AzureResourceManager
 
             Interlocked.Exchange(ref _loadedResources, newResources);
         }
-    }
 
-    internal class QueryResult
-    {
-        [JsonProperty("hostName")]
-        public string HostName { get; set; }
-
-        [JsonProperty("serviceName")]
-        public string ServiceName { get; set; }
-    }
-
-    internal class AppAuthenticationTokenProvider : ITokenProvider
-    {
-        public AppAuthenticationTokenProvider(string tenantId)
+        private string GetCurrentSubscriptionId()
         {
-            _tenantId = tenantId;
-        }
+            var ownerName = Environment.GetEnvironmentVariable("WEBSITE_OWNER_NAME");
 
-        private readonly string _tenantId;
-
-        public async Task<AuthenticationHeaderValue> GetAuthenticationHeaderAsync(CancellationToken cancellationToken)
-        {
-            var accessToken = await new AzureServiceTokenProvider().GetAccessTokenAsync("https://management.azure.com/", _tenantId, cancellationToken)
-                                                                   .ConfigureAwait(false);
-
-            return new AuthenticationHeaderValue("Bearer", accessToken);
+            return ownerName?.Split('+')[0];
         }
     }
 }

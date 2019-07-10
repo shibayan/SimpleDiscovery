@@ -11,6 +11,16 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         private const string DefaultTagName = "Registry";
 
+        public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder)
+        {
+            builder.AddAzureResourceManager(DefaultTagName, _ => { });
+        }
+
+        public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, string tagName)
+        {
+            builder.AddAzureResourceManager(tagName, _ => { });
+        }
+
         public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, Action<AzureResourceManagerOptions> optionsAction)
         {
             builder.AddAzureResourceManager(DefaultTagName, optionsAction);
