@@ -2,7 +2,7 @@
 
 namespace SimpleDiscovery.EnvironmentVariables
 {
-    public class EnvironmentVariablesServiceRegistry : IServiceRegistry
+    internal class EnvironmentVariablesServiceRegistry : IServiceRegistry
     {
         public EnvironmentVariablesServiceRegistry(string keyPrefix)
         {
@@ -13,6 +13,11 @@ namespace SimpleDiscovery.EnvironmentVariables
 
         public string GetService(string serviceName)
         {
+            if (serviceName == null)
+            {
+                throw new ArgumentNullException(nameof(serviceName));
+            }
+
             return Environment.GetEnvironmentVariable($"{_keyPrefix}_{serviceName}");
         }
     }

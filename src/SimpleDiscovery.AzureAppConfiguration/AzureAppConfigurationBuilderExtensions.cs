@@ -29,6 +29,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static void AddAzureAppConfiguration(this SimpleDiscoveryBuilder builder, string keyPrefix, Action<AzureAppConfigurationOptions> optionsAction)
         {
+            if (keyPrefix == null)
+            {
+                throw new ArgumentNullException(nameof(keyPrefix));
+            }
+
             var options = new AzureAppConfigurationOptions();
 
             optionsAction(options);

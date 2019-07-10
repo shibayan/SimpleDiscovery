@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDiscovery", "src\Simp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDiscovery.AzureAppConfiguration", "src\SimpleDiscovery.AzureAppConfiguration\SimpleDiscovery.AzureAppConfiguration.csproj", "{5405EB95-E372-4234-B30D-6C99E8078886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDiscovery.EnvironmentVariables", "src\SimpleDiscovery.EnvironmentVariables\SimpleDiscovery.EnvironmentVariables.csproj", "{399CEC3C-F8AB-4D93-B3E0-4DF624C8EB68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDiscovery.EnvironmentVariables", "src\SimpleDiscovery.EnvironmentVariables\SimpleDiscovery.EnvironmentVariables.csproj", "{399CEC3C-F8AB-4D93-B3E0-4DF624C8EB68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDiscovery.AzureResourceManager", "src\SimpleDiscovery.AzureResourceManager\SimpleDiscovery.AzureResourceManager.csproj", "{37124BCE-E737-4B61-93C0-B0118D0AE3B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{399CEC3C-F8AB-4D93-B3E0-4DF624C8EB68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{399CEC3C-F8AB-4D93-B3E0-4DF624C8EB68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{399CEC3C-F8AB-4D93-B3E0-4DF624C8EB68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37124BCE-E737-4B61-93C0-B0118D0AE3B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37124BCE-E737-4B61-93C0-B0118D0AE3B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37124BCE-E737-4B61-93C0-B0118D0AE3B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37124BCE-E737-4B61-93C0-B0118D0AE3B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using System;
+
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using SimpleDiscovery;
 using SimpleDiscovery.EnvironmentVariables;
@@ -16,6 +18,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static void AddEnvironmentVariables(this SimpleDiscoveryBuilder builder, string keyPrefix)
         {
+            if (keyPrefix == null)
+            {
+                throw new ArgumentNullException(nameof(keyPrefix));
+            }
+
             builder.Services.TryAddSingleton<IServiceRegistry>(new EnvironmentVariablesServiceRegistry(keyPrefix));
         }
     }
