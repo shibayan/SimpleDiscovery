@@ -28,6 +28,8 @@ namespace SimpleDiscovery.AzureResourceManager
         private readonly AzureResourceManagerOptions _options;
         private Dictionary<string, string[]> _loadedResources;
 
+        private static readonly Random _random = new Random();
+
         public string GetService(string serviceName)
         {
             if (serviceName == null)
@@ -35,19 +37,29 @@ namespace SimpleDiscovery.AzureResourceManager
                 throw new ArgumentNullException(nameof(serviceName));
             }
 
-            return _loadedResources.TryGetValue(serviceName, out var hostNames) ? "https://" + hostNames[0] : null;
+            if (!_loadedResources.TryGetValue(serviceName, out var hostNames))
+            {
+                return null;
+            }
+
+            return "https://" + (hostNames.Length == 1 ? hostNames[0] : hostNames[_random.Next(hostNames.Length)]);
         }
 
         private void Load() => LoadAsync().ConfigureAwait(false).GetAwaiter().GetResult();
 
         private async Task LoadAsync()
         {
-            var resourceGraphClient = new ResourceGraphClient(new TokenCredentials(new AppAuthenticationTokenProvider(_options.TenantId)));
+            var tenantId = _options.TenantId ?? GetCurrentTenantId();
+
+            var resourceGraphClient = new ResourceGraphClient(new TokenCredentials(new AppAuthenticationTokenProvider(tenantId)));
+
+            var subscriptionId = _options.SubscriptionId ?? GetCurrentSubscriptionId();
+            var resourceGroup = _options.ResourceGroup ?? GetCurrentResourceGroup();
 
             var query = new QueryRequest
             {
-                Subscriptions = new[] { _options.SubscriptionId ?? GetCurrentSubscriptionId() },
-                Query = $"where type =~ 'microsoft.web/sites' and not(isnull(tags['{_tagName}'])) | project hostName = properties.defaultHostName, serviceName = tags['{_tagName}']",
+                Subscriptions = new[] { subscriptionId },
+                Query = $"where type =~ 'microsoft.web/sites' and resourceGroup =~ '{resourceGroup}' and not(isnull(tags['{_tagName}'])) | project hostName = properties.defaultHostName, serviceName = tags['{_tagName}']",
                 Options = new QueryRequestOptions { ResultFormat = ResultFormat.ObjectArray }
             };
 
@@ -61,11 +73,12 @@ namespace SimpleDiscovery.AzureResourceManager
             Interlocked.Exchange(ref _loadedResources, newResources);
         }
 
-        private string GetCurrentSubscriptionId()
-        {
-            var ownerName = Environment.GetEnvironmentVariable("WEBSITE_OWNER_NAME");
+        private static string GetCurrentTenantId() => Environment.GetEnvironmentVariable("DISCOVERY_TENANT_ID");
 
-            return ownerName?.Split('+')[0];
-        }
+        private static string GetCurrentSubscriptionId() => Environment.GetEnvironmentVariable("WEBSITE_OWNER_NAME")?.Split('+')[0] ??
+                                                            Environment.GetEnvironmentVariable("DISCOVERY_SUBSCRIPTION_ID");
+
+        private static string GetCurrentResourceGroup() => Environment.GetEnvironmentVariable("WEBSITE_RESOURCE_GROUP") ??
+                                                           Environment.GetEnvironmentVariable("DISCOVERY_RESOURCE_GROUP");
     }
 }
