@@ -9,11 +9,9 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class AzureResourceManagerBuilderExtensions
     {
-        private const string DefaultTagName = "Registry";
-
         public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder)
         {
-            builder.AddAzureResourceManager(DefaultTagName, _ => { });
+            builder.AddAzureResourceManager(SimpleDiscoveryDefaults.DefaultTagName, _ => { });
         }
 
         public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, string tagName)
@@ -23,7 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, Action<AzureResourceManagerOptions> optionsAction)
         {
-            builder.AddAzureResourceManager(DefaultTagName, optionsAction);
+            builder.AddAzureResourceManager(SimpleDiscoveryDefaults.DefaultTagName, optionsAction);
         }
 
         public static void AddAzureResourceManager(this SimpleDiscoveryBuilder builder, string tagName, Action<AzureResourceManagerOptions> optionsAction)

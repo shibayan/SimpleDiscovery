@@ -9,11 +9,9 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class EnvironmentVariablesBuilderExtensions
     {
-        private const string DefaultKeyPrefix = "Registry";
-
         public static void AddEnvironmentVariables(this SimpleDiscoveryBuilder builder)
         {
-            builder.AddEnvironmentVariables(DefaultKeyPrefix);
+            builder.AddEnvironmentVariables(SimpleDiscoveryDefaults.DefaultKeyPrefix);
         }
 
         public static void AddEnvironmentVariables(this SimpleDiscoveryBuilder builder, string keyPrefix)
