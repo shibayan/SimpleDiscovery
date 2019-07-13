@@ -11,17 +11,14 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddEnvironmentVariables(this SimpleDiscoveryBuilder builder)
         {
-            builder.AddEnvironmentVariables(SimpleDiscoveryDefaults.DefaultKeyPrefix);
+            builder.AddEnvironmentVariables(_ => { });
         }
 
-        public static void AddEnvironmentVariables(this SimpleDiscoveryBuilder builder, string keyPrefix)
+        public static void AddEnvironmentVariables(this SimpleDiscoveryBuilder builder, Action<EnvironmentVariablesOptions> optionsAction)
         {
-            if (keyPrefix == null)
-            {
-                throw new ArgumentNullException(nameof(keyPrefix));
-            }
+            builder.Services.Configure(optionsAction);
 
-            builder.Services.TryAddSingleton<IServiceRegistry>(new EnvironmentVariablesServiceRegistry(keyPrefix));
+            builder.Services.TryAddSingleton<IServiceRegistry, EnvironmentVariablesServiceRegistry>();
         }
     }
 }

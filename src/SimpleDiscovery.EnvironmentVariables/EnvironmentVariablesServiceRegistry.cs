@@ -1,15 +1,19 @@
 ﻿using System;
 
+using Microsoft.Extensions.Options;
+
 namespace SimpleDiscovery.EnvironmentVariables
 {
     internal class EnvironmentVariablesServiceRegistry : IServiceRegistry
     {
-        public EnvironmentVariablesServiceRegistry(string keyPrefix)
+        public EnvironmentVariablesServiceRegistry(IOptions<EnvironmentVariablesOptions> options)
         {
-            _keyPrefix = keyPrefix;
+            _options = options.Value;
         }
 
-        private readonly string _keyPrefix;
+        private readonly EnvironmentVariablesOptions _options;
+
+        private const string DefaultPrefix = "Registry";
 
         public string GetService(string serviceName)
         {
@@ -18,7 +22,9 @@ namespace SimpleDiscovery.EnvironmentVariables
                 throw new ArgumentNullException(nameof(serviceName));
             }
 
-            return Environment.GetEnvironmentVariable($"{_keyPrefix}_{serviceName}");
+            var prefix = _options.CustomPrefix ?? DefaultPrefix;
+
+            return Environment.GetEnvironmentVariable($"{prefix}_{serviceName}");
         }
     }
 }

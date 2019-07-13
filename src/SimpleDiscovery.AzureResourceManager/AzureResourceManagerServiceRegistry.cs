@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Azure.Management.ResourceGraph;
 using Microsoft.Azure.Management.ResourceGraph.Models;
+using Microsoft.Extensions.Options;
 using Microsoft.Rest;
 
 using Newtonsoft.Json.Linq;
@@ -16,17 +17,17 @@ namespace SimpleDiscovery.AzureResourceManager
 {
     internal class AzureResourceManagerServiceRegistry : IServiceRegistry
     {
-        public AzureResourceManagerServiceRegistry(string tagName, AzureResourceManagerOptions options)
+        public AzureResourceManagerServiceRegistry(IOptions<AzureResourceManagerOptions> options)
         {
-            _tagName = tagName;
-            _options = options;
+            _options = options.Value;
 
             Load();
         }
 
-        private readonly string _tagName;
         private readonly AzureResourceManagerOptions _options;
         private Dictionary<string, string[]> _loadedResources;
+
+        private const string DefaultTagName = "Registry";
 
         private static readonly Random _random = new Random();
 
@@ -55,11 +56,12 @@ namespace SimpleDiscovery.AzureResourceManager
 
             var subscriptionId = _options.SubscriptionId ?? GetCurrentSubscriptionId();
             var resourceGroup = _options.ResourceGroup ?? GetCurrentResourceGroup();
+            var tagName = _options.CustomTagName ?? DefaultTagName;
 
             var query = new QueryRequest
             {
                 Subscriptions = new[] { subscriptionId },
-                Query = $"where type =~ 'microsoft.web/sites' and resourceGroup =~ '{resourceGroup}' and not(isnull(tags['{_tagName}'])) | project hostName = properties.defaultHostName, serviceName = tags['{_tagName}']",
+                Query = $"where type =~ 'microsoft.web/sites' and resourceGroup =~ '{resourceGroup}' and not(isnull(tags['{tagName}'])) | project hostName = properties.defaultHostName, serviceName = tags['{tagName}']",
                 Options = new QueryRequestOptions { ResultFormat = ResultFormat.ObjectArray }
             };
 

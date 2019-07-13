@@ -7,5 +7,7 @@
         public string SubscriptionId { get; set; }
 
         public string ResourceGroup { get; set; }
+
+        public string CustomTagName { get; set; }
     }
 }
