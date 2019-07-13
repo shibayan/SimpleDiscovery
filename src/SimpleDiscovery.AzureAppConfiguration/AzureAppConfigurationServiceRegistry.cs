@@ -13,7 +13,26 @@ namespace SimpleDiscovery.AzureAppConfiguration
             _options = options.Value;
 
             _configuration = new ConfigurationBuilder()
-                             .AddAzureAppConfiguration(_options.ConnectionString)
+                             .AddAzureAppConfiguration(o =>
+                             {
+                                 if (_options.ConnectionString != null)
+                                 {
+                                     o.Connect(_options.ConnectionString);
+                                 }
+                                 else if (_options.Endpoint != null)
+                                 {
+                                     o.ConnectWithManagedIdentity(_options.Endpoint);
+                                 }
+                                 else
+                                 {
+                                     throw new InvalidOperationException("ConnectionString and Endpoint have not been configured.");
+                                 }
+
+                                 if (_options.LabelFilter != null)
+                                 {
+                                     o.Use(KeyFilter.Any, _options.LabelFilter);
+                                 }
+                             })
                              .Build();
         }
 
