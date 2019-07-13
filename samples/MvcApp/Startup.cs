@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using MvcApp.Services;
 
+using SimpleDiscovery.AzureResourceManager;
+
 namespace MvcApp
 {
     public class Startup
@@ -33,8 +35,10 @@ namespace MvcApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.Configure<AzureResourceManagerOptions>(Configuration.GetSection("ARM"));
+
             services.AddSimpleDiscovery()
-                    .AddAzureAppConfiguration(Configuration.GetConnectionString("AppConfig"));
+                    .AddAzureResourceManager();
 
             services.AddHttpClient<BuchizoService>()
                     .WithSimpleDiscovery();
