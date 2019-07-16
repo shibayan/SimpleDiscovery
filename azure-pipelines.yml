@@ -12,7 +12,7 @@ variables:
 stages:
 - stage: Build
   jobs:
-  - job: Release_Build
+  - job: Test_Build
     condition: not(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
     pool:
       vmImage: 'windows-2019'
@@ -21,7 +21,6 @@ stages:
       displayName: 'dotnet build'
       inputs:
         command: 'build'
-        arguments: '--configuration $(buildConfiguration)'
 
   - job: Build_Nupkg
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
