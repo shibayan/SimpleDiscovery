@@ -13,6 +13,7 @@ stages:
 - stage: Build
   jobs:
   - job: Release_Build
+    condition: not(startsWith(variables['Build.SourceBranch'], 'refs/tags/v'))
     pool:
       vmImage: 'windows-2019'
     steps:
@@ -23,8 +24,6 @@ stages:
         arguments: '--configuration $(buildConfiguration)'
 
   - job: Build_Nupkg
-    dependsOn:
-    - Release_Build
     condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/v')
     pool:
       vmImage: 'windows-2019'
@@ -38,7 +37,6 @@ stages:
         command: pack
         packagesToPack: 'src/**/*.csproj'
         packDirectory: '$(System.DefaultWorkingDirectory)/dist'
-        nobuild: true
         versioningScheme: byEnvVar
         versionEnvVar: PackageVersion
         verbosityPack: Normal
