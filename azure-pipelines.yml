@@ -53,6 +53,8 @@ stages:
     pool:
       vmImage: 'windows-2019'
     steps:
+    - checkout: none
+
     - download: current
       artifact: nupkg
       displayName: 'Download artifact'
@@ -61,7 +63,7 @@ stages:
       displayName: 'NuGet push'
       inputs:
         command: push
-        packagesToPush: '$(Pipeline.Workspace)/nupkg/*.nupkg'
+        packagesToPush: '$(Pipeline.Workspace)/**/*.nupkg'
         nuGetFeedType: external
         publishFeedCredentials: NuGet.org
         verbosityPush: Normal
